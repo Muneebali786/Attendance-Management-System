@@ -11,24 +11,25 @@ const [time2, setTime2] = useState(new Date());
 
 const Users = [
   {
-    id: '01', name: 'Muneeb', timeIn:'08:00pm', timeOut: '08:00pm'
+    id: '01', name: 'Muneeb', timeIn:'08:00am', timeOut: '10:00pm', totalTime: '00:00'
   },
   {
-    id: '02', name: 'Hassan', timeIn:'08:00pm', timeOut: '08:00pm'
+    id: '02', name: 'Hassan', timeIn:'08:00am', timeOut: '10:00pm', totalTime: '00:00'
   },
   {
-    id: '03', name: 'Umer',timeIn:'08:00pm', timeOut: '08:00pm'
+    id: '03', name: 'Umer',timeIn:'08:00am', timeOut: '10:00pm', totalTime: '00:00'
   },
   {
-    id: '04', name: 'Qasid',timeIn:'08:00pm', timeOut: '08:00pm'
+    id: '04', name: 'Qasid',timeIn:'08:00am', timeOut: '10:00pm', totalTime: '00:00'
   },
 ];
 const [dUser, setUser] = useState(Users);
+const [totalTime, setTotalTime] = useState("HH:mm:ss");
 
 
-const [totalHours, settotalHours] = useState(0);
-const [totalMinutes, settotalMinutes] = useState(0);
-const [totalSeconds, settotalSeconds] = useState(0);
+//const [totalHours, settotalHours] = useState(0);
+//const [totalMinutes, settotalMinutes] = useState(0);
+//const [totalSeconds, settotalSeconds] = useState(0);
 
 function onTimeInChange(i){
 
@@ -65,8 +66,52 @@ function onTimeInChange(i){
   newArr[i].timeOut=Time;
    setUser(newArr)
 
-   
-   const start = Moment().add(-4, 'm');
+//   const timeStart = new Date("Mon Jan 01 2007 11:00:00 GMT+0530").getTime();
+// const timeEnd = new Date("Mon Jan 01 2007 11:30:00 GMT+0530").getTime();
+// const hourDiff = timeEnd - timeStart; //in ms
+// const secDiff = hourDiff / 1000; //in s
+// const minDiff = hourDiff / 60 / 1000; //in minutes
+// const hDiff = hourDiff / 3600 / 1000; //in hours
+// const humanReadable = {};
+// humanReadable.hours = Math.floor(hDiff);
+// humanReadable.minutes = minDiff - 60 * humanReadable.hours;
+// console.log("Time difference", humanReadable);
+// setTotalTime(prevState => minDiff);
+
+// const startTime = new Date("Mon Jan 01 2007 11:00:00 GMT+0530").getTime();
+// const a = new Date("Mon Jan 01 2007 11:30:00 GMT+0530").getTime();
+// const duration = Moment.duration(a.diff(startTime));
+// const hours = duration.hours();
+// const mints = duration.minutes();
+// setTotalTime(prevState => mints);
+
+
+//var now = Moment('2020-11-18T23:03:55'); //todays date
+//var now = Moment([21,30], "HH:mm:ss");
+//var end = Moment(new Date(), "HH:mm:ss");
+var now = Moment((newArr[i].timeOut), "HH:mm:ss")
+var end = Moment(newArr[i].timeIn, "HH:mm:ss"); // another date
+var duration = Moment.duration(now.diff(end));
+var minutes = duration.minutes() 
+var hour = duration.hours(); 
+console.log(minutes)
+setTotalTime(`${hour} hrs`+`${minutes} min`);
+// const a = Moment(new Date())//now
+// const b = Moment(new Date())
+// // const b = Moment([25,30],"HH:mm:ss");
+
+// console.log(a.diff(b, 'minutes')) // 44700
+// console.log(a.diff(b, 'hours')) // 745
+// console.log(a.diff(b, 'days')) // 31
+// console.log(a.diff(b, 'weeks')) // 4
+// setTotalTime( a.diff(b,'minutes'))
+
+
+// let tTime = [...dUser, humanReadable]
+// tTime[i].totalTime=humanReadable
+//   setTotalTime(tTime)
+
+   //const start = Moment().add(-4, 'm');
   // console.log(Users);
   //   setTime2(new Date());
   //  const  time = time2- time1
@@ -122,7 +167,7 @@ function onTimeInChange(i){
                                     <td>{<Timer date={item.timeIn}/>}</td>
                                     <td>{<Timer date={item.timeOut}/>}</td>
                                     <button type="button" onClick={()=>onTimeOutChange(i)} class="btn btn-danger btn-sm">Out</button>
-                                    <td> - </td>
+                                    <td> {totalTime} </td>
                                     <td>Present</td>
                                   </tr>
                                     
